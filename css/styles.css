@@ -1,8 +1,250 @@
+/* Base Styles */
 body {
   height: 100%;
   background-image: url(../img/topography.png);
-  font-family: 'Londrina Solid', cursive;
+  font-family: 'Rye', serif;
+  margin: 0;
 }
+
+.rye-regular {
+  font-family: "Rye", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Container */
+.game-wrapper {
+  position: relative;
+  margin: 20px auto;
+  width: 95%;
+  max-width: 1920px;
+  border: 4px double black;
+  background: white;
+  padding: clamp(10px, 2vw, 32px); /* caps out so it doesn't balloon on 4K/ultrawide */
+  box-sizing: border-box;
+  min-height: min(665px, 90vh); /* stop forcing scroll on short/landscape screens */
+  place-items: center;
+}
+
+@media (min-width: 1024px) {
+  .game-wrapper {
+    width: 75%;
+  }
+}
+
+.game-area {
+  min-width: 0; /* Prevents child elements from pushing the grid wide */
+  position: relative;
+}
+
+.game-area:focus, 
+#game-viewbox:focus {
+    outline: none;
+}
+
+/* Grids */
+.layout-grid-setup {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 20px;
+}
+
+.layout-grid-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .layout-grid-main {
+    grid-template-columns: 2fr 1fr; /* Wide screens: Side-by-side */
+	gap: 30px;
+  }
+}
+
+.supply-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  text-align: center;
+  margin-top: 15px;
+}
+
+/* Shrunk from natural size to fit six supply items in the row */
+.supply-item img {
+  max-height: 34px;
+  width: auto;
+}
+
+/* Emoji stand-ins for resources that don't have icon artwork (firewood, water) —
+   sized and centered to visually match the shrunken image icons beside them */
+.supply-item .emoji-icon {
+  font-size: 26px;
+  line-height: 34px;
+  height: 34px;
+}
+
+.supply-item p {
+  font-size: 0.85rem;
+  margin: 4px 0 0;
+}
+
+/* Store Styles */
+.store-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 3px; /* tightened (was 5px) to fit the firewood + water rows vertically */
+  background: #f2f2f2;
+}
+
+.store-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid black;
+  background: white;
+  align-items: center;
+  padding: 3px 5px; /* tightened (was 5px) to fit the firewood + water rows */
+  font-size: 0.8rem; /* slightly reduced so 12 rows fit where 10 did */
+}
+
+.store-row input {
+  font-size: 0.8rem;
+}
+
+/* Narrow phones: the Item column (e.g. "Spare Wagon Tongues") needs more
+   room than an equal 1fr split can give it once the font shrinks */
+@media (max-width: 480px) {
+  .store-row {
+    grid-template-columns: 0.8fr 1.6fr 0.7fr 0.7fr;
+    font-size: 0.68rem;
+    padding: 4px 3px;
+  }
+}
+
+.header-row {
+  background: #e9e9e9;
+  font-weight: bold;
+}
+
+/* Buttons (Native replacements for Bootstrap .btn) */
+.btn {
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-family: inherit;
+  font-size: 18px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.2s;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-success { background-color: #28a745; color: white; }
+.btn-danger { background-color: #d9534f; color: white; }
+.btn-info { background-color: #17a2b8; color: white; }
+.btn-warning { background-color: #f0ad4e; color: white; }
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Updated Action Grid */
+.action-buttons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 Columns */
+  gap: 5px;
+  margin-top: 2px;
+}
+
+/* Ensure buttons fill their grid cell */
+.action-buttons-grid .btn {
+  width: 100%;
+  padding: 5px 5px;
+  font-size: 16px;
+}
+
+/* Responsive: Stack to 1 column on very small screens */
+@media (max-width: 500px) {
+  .action-buttons-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .layout-grid-setup, .layout-grid-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tablets (iPad portrait/landscape and similar): two columns gives the
+   profession list room to breathe instead of turning into one long
+   single-column scroll like it does on phones */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .layout-grid-setup {
+    grid-template-columns: 1fr 1fr;
+  }
+  .layout-grid-setup .setup-group {
+    grid-column: 1 / -1;
+  }
+}
+
+/* --- Map Specific Layout --- */
+
+#map-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fdf6e3; /* Classic parchment feel */
+  border: 4px double #5d4037;
+  padding: 20px;
+  width: 95%;
+  max-width: 1200px;
+  min-height: 700px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#map {
+  position: relative;
+  flex-grow: 1;
+  border: 2px solid #8d6e63;
+
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 10;
+}
+
+#map-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../img/topography.png');
+  opacity: 0.3;
+  z-index: 1;
+}
+
+.map-controls {
+    padding: 15px;
+    text-align: center;
+    z-index: 20;
+}
+
+/* Ensure the map scales on smaller screens */
+@media (max-width: 900px) {
+    #map-wrapper {
+        min-height: 500px;
+    }
+}
+
 span {
   font-weight: 300;
   letter-spacing: 1px;
@@ -10,10 +252,6 @@ span {
 /* section to hide things */
 
 #characterInput {
-  display: none;
-}
-
-#store {
   display: none;
 }
 
@@ -54,26 +292,89 @@ span {
   margin-left: 25px;
 }
 
-#jesus {
+#end-game {
+    max-width: 80%; 
+}
+
+/* Special event overlays (Jesus/Star) scaled to match the small wagon */
+#jesus, #star, #ghost-sprite {
+  position: absolute;
   display: none;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100px;
+  pointer-events: none;
+  transition: opacity 1s ease-in-out;
   z-index: 50;
-  height: 90px;
-  margin-top: 20px;
-  margin-left: 20px;
-  position: absolute;
 }
 
+#jesus {
+    bottom: 100px; /* Adjust based on your wagon's height */
+}
+
+#ghost-sprite {
+    bottom: 100px;
+	filter: opacity(0.6) drop-shadow(0 0 5px cyan);
+}
+
+/* Force the Star to stay inside the .wagon-slot */
 #star {
-  display: none;
-  z-index: 101;
-  position: absolute;
   height: 20px;
-  margin-bottom: 105px;
-  margin-left: 15px;
+  bottom: 80px; /* Changed from margin-bottom to bottom for stability */
+  left: 30px;
+  position: absolute;
+  z-index: 101;
 }
 
-#wagon-images .col-md-2 {
-  padding: 0px 5px;
+/* Container for the mountain background and the moving wagon */
+#wagon-images {
+  background-image: url(../img/mountains.png);
+  background-size: cover;
+  background-position: bottom;
+  padding: 10px;
+  border: 2px solid black;
+  margin: 0;
+  height: 151px;
+  position: relative;
+  display: flex;
+  justify-content: flex-end; /* Keeps the wagon on the right side like the original */
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+/* Container fix to ensure icons don't drift */
+.wagon-slot {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  bottom: 5px;
+  right: 0%; /* Changed from 15px to 0% to match JS logic */
+  transition: right 0.4s ease-in-out; 
+}
+
+/* Force all images to stay inside the slot without offsets */
+#wagon-1, #wagon-2, #wagon-3, #wagon-4, #wagon-5, #wagon-6 {
+  width: 100%; 
+  height: auto;
+  position: absolute;
+  bottom: 10px;
+  left: 0; /* Ensure no horizontal offset inside the slot */
+  display: none;
+  z-index: 1;
+}
+
+/* Ensure the initial wagon is visible */
+#wagon-1 {
+  display: block;
+}
+
+#wheel-1, #wheel-2, #wheel-3, #wheel-4, #wheel-5, #wheel-6 {
+  height: 20px;
+  position: absolute;
+  bottom: 5px;
+  left: 20px; /* Standard wheel offset within the wagon body */
+  display: none; 
+  z-index: 100;
 }
 
 /* page formatting */
@@ -81,20 +382,18 @@ span {
 .prettyColumn {
   background-color: #f2f2f2;
   border: 2px solid black;
-  padding: 10px;
-  min-height: 244px;
+  padding: 5px;
+  /* min-height: 244px; */
 }
 
 .prettyColumn label{
-  font-size: 23px;
+  font-size: 1.125em;
   padding: 1px;
 }
 
 #characterInput .prettyColumn {
   min-height: 298px;
 }
-
-
 
 .container {
   position: absolute;
@@ -107,26 +406,24 @@ span {
   min-height: 665px;
 }
 
-.store-titles {
-  height: 53px;
+.store-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px 20px;
+  overflow-wrap: break-word;
 }
 
-.store-titles h2{
-  float: left;
+.store-header h2 {
+  font-size: 2.5em;
+  margin: 0.3em 0;
 }
 
-.store-titles h3 {
-  float: right;
-}
-
-#wagon-images {
-  background-image: url(../img/mountains.png);
-  background-size: cover;
-  background-position: bottom;
-  padding: 10px;
-  border: 2px solid black;
-  margin: 0;
-  height: 151px;
+.store-header h3 {
+  font-size: 1.5em;
+  margin: 0.3em 0;
+  white-space: nowrap;
 }
 
 .icon-animate {
@@ -140,7 +437,7 @@ span {
   animation: example 40s linear 0s infinite reverse;
   -moz-animation: 40s linear 0s reverse none infinite example;
   -webkit-animation: example 40s linear 0s infinite reverse;
-  -0-animation: example 40s linear 0s infinite reverse;
+  -o-animation: example 40s linear 0s infinite reverse;
 }
 
 /* Safari 4.0 - 8.0 */
@@ -218,7 +515,7 @@ span {
 }
 
 .main-title h1 {
-    font-size: 75px;
+    font-size: 4.5em;
     animation: titleeffect 10s linear 0s 1 normal;
     -moz-animation: 10s linear 0s normal none 1 titleeffect;
     -webkit-animation: titleeffect 10s linear 0s 1 normal;
@@ -270,7 +567,7 @@ img {
 }
 
 #gameMainScreen .prettyColumn {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 #gameMainScreen h1 {
@@ -290,10 +587,14 @@ img {
 #charNameInput input {
   display: block;
   border: none;
-  width: 100%;
+  width: 95%;
   margin-bottom: 10px;
   padding: 5px;
-  font-size: 23px;
+  font-size: 18px;
+}
+
+#main-progressbar {
+  width: 100%;	
 }
 
 #gameMainScreen ul{
@@ -302,14 +603,19 @@ img {
   padding-left: 0;
 }
 
+/* Tooltips & Other original CSS preserved... */
 #ongoing-text-box {
   background: #f2f2f2;
-  height: 457px;
-  overflow: scroll;
-  margin-top: 2rem;
+  height: auto; 
+  overflow-y: scroll;
+  margin-top: 1rem;
   padding: 10px;
   font-weight: 300;
-  letter-spacing: 1px;
+  border: 1px solid #ccc;
+}
+
+#events-content {
+  height: 21cqh; 
 }
 
 #ongoing-text-box p:before {
@@ -333,15 +639,34 @@ img {
   font-weight: normal;
 }
 
- #store {
+#store {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000; /* Ensure it's above the gameMainScreen and Modals */
+    background-image: url('../img/merc.png'); 
+    background-size: cover;
+    display: none;
+}
+
+#store {
   background-image: url(../img/merc.png);
   background-size: cover;
-  background-position: center;
-  height: 597px;
-  position: relative;
- }
+  display: none;
+  background-position: top-left;
+  height: min(635px, 92vh); /* caps out instead of overflowing short/landscape screens */
+  overflow-y: auto;
+  position: top-left;
+  top: 0;
+  left: 0;
+  width: 95%; /* You must constrain the width of the div */
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  z-index: 9000; /* Ensure it's above the gameMainScreen and Modals */
+}
 
- #store .store-fields {
+.store-fields {
   background: white;
   padding: 25px;
   position: absolute;
@@ -373,8 +698,8 @@ img {
 }
 
 #store input {
-  width: 100%;
-  height: 41px;
+  width: 85%;
+  height: 50%;
   text-align: right;
   padding-right: 10px;
 }
@@ -400,8 +725,6 @@ img {
 }
 /*Modal Popup*/
 
-
-
 /* Style the Image Used to Trigger the Modal */
 #myImg {
     border-radius: 5px;
@@ -411,32 +734,43 @@ img {
 
 #myImg:hover {opacity: 0.7;}
 
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 11%; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+/* The Modal (background) - Default hidden */
+.modal, .modal2 {
+    display: none; 
+    position: fixed; 
+    z-index: 9999; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.7);
+    overflow: auto;
+    justify-content: center;
+    align-items: center;   
 }
-.modal2 {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+
+/* This class centers the modal and makes it visible */
+.modal.active, .modal2.active {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+/* Inner child container - Constrained size */
+.modal-child {
+    z-index: 10000;
+	display: block;
+	background-color: white;
+    padding: 20px;
+    width: 90%;          
+    width: fit-content;
+    border: 3px solid #000;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    margin: auto;
+    position: relative;
 }
 
 /* The Close Button */
@@ -475,8 +809,7 @@ img {
 }
 
 .modal-child img{
-  width: 50%;
-  max-width: 673px;
+  width: fit-content;
 }
 #profession input {
   margin-right: 10px;
@@ -487,11 +820,21 @@ img {
 #profession #radio3,
 #profession #radio4,
 #profession #radio5,
-#profession #radio6 {
+#profession #radio6,
+#profession #radio7,
+#profession #radio8,
+#profession #radio9,
+#profession #radio10,
+#profession #radio11,
+#profession #radio12,
+#profession #radio13,
+#profession #radio14,
+#profession #radio15,
+#profession #radio16, {
   position: relative;
 }
 
-#profession .tooltiptext {
+#profession .tooltiptext, #difficulty .tooltiptext {
   visibility: hidden;
   width: 190px;
   background-color: black;
@@ -504,6 +847,11 @@ img {
   position: absolute;
   z-index: 1;
 }
+
+#mute-button{
+  margin-right: 70px;
+}
+
 
 #faq .tooltiptext,
 #sacrifice-button .tooltiptext {
@@ -546,6 +894,54 @@ img {
   visibility: visible;
 }
 
+#radio7:hover .tooltiptext {
+  visibility: visible;
+}
+
+#radio8:hover .tooltiptext {
+  visibility: visible;
+}
+
+#radio9:hover .tooltiptext {
+  visibility: visible;
+}
+
+#radio10:hover .tooltiptext {
+  visibility: visible;
+}
+
+#radio11:hover .tooltiptext {
+  visibility: visible;
+}
+
+#radio12:hover .tooltiptext {
+  visibility: visible;
+}
+
+#radio13:hover .tooltiptext {
+  visibility: visible;
+}
+
+#radio14:hover .tooltiptext {
+  visibility: visible;
+}
+
+#radio15:hover .tooltiptext {
+  visibility: visible;
+}
+
+#radio16:hover .tooltiptext {
+  visibility: visible;
+}
+
+#id .tooltiptext {
+  visibility: hidden;
+}
+
+#id:hover .tooltiptext {
+  visibility: visible;
+}
+
 #faq:hover .tooltiptext {
   visibility: visible;
 }
@@ -557,6 +953,48 @@ img {
 
 #sacrifice-button:hover {
   transform: scale(1.2);
+}
+
+.tooltip-trigger {
+  position: relative;
+}
+
+.tooltip-trigger .tooltiptext {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-in-out;
+  width: max-content;
+  max-width: 220px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 0px 17px 17px 17px;
+  padding: 10px 14px;
+  position: absolute;
+  z-index: 500;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  font-size: 0.85em;
+}
+
+.tooltip-trigger:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Trailblaze (Preparations sub-menu): square pipe tiles */
+.trailblaze-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #222;
+  transition: box-shadow 0.15s ease;
 }
 
 #supplies {
@@ -582,17 +1020,27 @@ img {
 
 #faq {
   position: absolute;
-  right: 15px;
+  top: 0;
+  right: 0; /* Above the right corner of the map background */
+  z-index: 10;
 }
 
 #faq img {
   width: 38px;
 }
 
+/* Sacrifice/Reset icon anchored to the Status Area */
+.status-area {
+  position: relative; /* Anchor point for sacrifice button */
+  font-size: small;
+}
+
 #sacrifice-button {
   position: absolute;
-  right: 15px;
+  top: 0;
+  right: 0; /* Above the right corner of the status-panel */
   transition: all .2s ease-in-out;
+  z-index: 10;
 }
 
 #sacrifice-button img {
@@ -614,6 +1062,7 @@ img {
   height: 3em;
 }
 
+/* Progress & Health */
 .health-bar {
   height: 9px;
   margin-bottom: 6px;
@@ -626,10 +1075,717 @@ img {
   background-size: cover;
 }
 
-
 /* 100% Image Width on Smaller Screens */
 @media only screen and (max-width: 700px){
     .modal-content {
         width: 100%;
     }
+}
+
+/* Styling Native Progress Bars */
+.health-progress {
+  width: 100%;
+  height: 12px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* Logic for colors handled via JS adding classes */
+.health-good::-webkit-progress-value { background-color: #28a745; }
+.health-fair::-webkit-progress-value { background-color: #f0ad4e; }
+.health-poor::-webkit-progress-value { background-color: #d9534f; }
+.health-dead::-webkit-progress-value { background-color: #000000; }
+
+/* Pure CSS Shake Effect */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.apply-shake {
+  animation: shake 0.2s ease-in-out 0s 3;
+}
+
+/* The Main 4:3 Aspect Ratio Viewbox (Apple II style) */
+#game-viewbox {
+  position: relative;
+  width: 100%;
+  /* aspect-ratio: 4 / 2.5; */ 
+  aspect-ratio: 16 / 9;
+  background-color: #87CEEB; /* Sky color */
+  border: 4px solid #000;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Area 1 & 2: Background and Landmarks */
+.parallax-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80%; /* Takes up top 80% */
+  z-index: 1;
+}
+
+#trail-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80%;
+  z-index: 1;
+  display: block;
+}
+
+#layer-background {
+  background-image: none !important;
+  z-index: 1;
+}
+
+/* Area 2: Landmarks */
+#layer-landmark {
+  position: absolute;
+  bottom: 20%; /* Sits on top of the ground */
+  left: 95%;
+  z-index: 2;
+  transition: left 0.5s linear; /* May be causing problems */
+  display: flex;
+  align-items: flex-end;
+  transform: translateX(-50%);
+}
+
+#landmark-graphic {
+  height: 47vh; /* Relative to viewport height, or use a percentage if parented */
+  max-height: 47%; 
+  width: auto;
+  display: none;
+  opacity: 0 !important;
+}
+
+/* Area 5: The Ground */
+#layer-ground {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20%;
+  background-color: #228B22; /* Forest Green (Area 5) */
+  border-top: 4px solid #000;
+  z-index: 3;
+}
+
+/* Area 3: Anchored Wagon & Oxen */
+#wagon-anchored {
+  position: absolute;
+  bottom: 20%;
+  right: 5%; /* Anchored to the right */
+  height: 23.5%; /* Relative to #game-viewbox */
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: -15px;
+  z-index: 4;
+}
+
+#oxen-sprite {
+  height: 100%;
+  width: auto;
+  margin-right: -5px; /* Keeps oxen attached to wagon */
+  margin-bottom: 5px;
+  z-index: 4;
+  bottom: 20%;
+  align-items: flex-end;
+}
+
+.wagon-body-container {
+  position: relative;
+  height: 100%;
+}
+
+#wagon-body {
+  height: 100%;
+  width: auto;
+  margin-bottom: 5px;
+  z-index: 4;
+  bottom: 20%;
+  align-items: flex-end;
+}
+
+/* Area 4: Message Overlay */
+#viewbox-message-overlay {
+  position: absolute;
+  bottom: 35%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 5px 15px;
+  border: 1px solid #fff;
+  z-index: 5;
+  font-size: 0.9rem;
+  display: none; /* Only show when message is active */
+}
+
+/* Area 6: Action Prompt */
+#action-prompt {
+  background: #000;
+  color: #fff;
+  text-align: center;
+
+  font-size: 1.2rem;
+  border: 2px solid #fff;
+
+  width: 100%
+}
+
+/* Ensure the splash screen doesn't break the modal layout */
+.splash-img {
+  width: 100%;
+  max-width: 768px;
+  height: auto;
+  border: 2px solid black;
+  margin: 10px 0;
+}
+
+#map-screen {
+	width: fit-content;
+    display: none; /* Keep this hidden by default */
+    background: #fdf6e3;
+    position: absolute;
+    z-index: 2000;
+	justify-content: center;
+	margin: 0 auto;
+}
+
+#map-svg {
+    display: block;
+    width: fit-content;
+    max-width: 1800px; /* Constrain to your viewBox width */
+    height: auto;
+    margin: 0 auto;
+    fill: none;
+    stroke: gold;
+    stroke-width: 5px;
+    stroke-linecap: round;
+}
+
+/* The map image and its SVG path/marker overlay share this box exactly,
+   at every screen size, so the wagon marker stays aligned with the trail */
+#map-image {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+#map-svg-overlay {
+    width: 100%;
+    height: 100%;
+}
+
+#weather-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10; /* Above parallax layers */
+    pointer-events: none; /* Let clicks pass through */
+    background-size: cover;
+    background-position: center;
+	background-repeat: no-repeat;
+    display: none; /* Toggle this with JS */
+}
+
+.sanity-glitch {
+    animation: shake 0.2s infinite;
+    filter: drop-shadow(0 0 5px magenta);
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px); }
+    50% { transform: translate(-1px, -2px); }
+    100% { transform: translate(1px, 1px); }
+}
+
+@keyframes sinkAndFade {
+    0% { transform: rotate(0deg) translateY(0); opacity: 1; }
+    50% { transform: rotate(15deg) translateY(50px); opacity: 0.5; }
+    100% { transform: rotate(25deg) translateY(150px); opacity: 0; }
+}
+
+.raft-sinking {
+    animation: sinkAndFade 2s forwards ease-in;
+}
+
+#shovel-game-container img {
+    cursor: url('../img/shovel/shovel_cursor.png'), pointer !important;
+}
+
+/* Blue tint and blur effect for freezing */
+.freezing-effect {
+    filter: sepia(0.5) hue-rotate(180deg) saturate(1.5) contrast(1.1) blur(1px) !important;
+    transition: filter 1s ease-in-out;
+}
+
+/* Optional: Subtle frost vignette around the edges */
+#shovel-game-container.freezing-effect::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 0 100px rgba(0, 255, 255, 0.4);
+    pointer-events: none;
+    z-index: 150;
+}
+
+.whiteout-active {
+    filter: brightness(1.5) contrast(0.8) saturate(0) !important; /* Blinds the player with white */
+    transition: filter 2s ease-in-out;
+}
+
+#shovel-game-container.whiteout-active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('./img/shovel/snow_particles.png'); /* Add a scrolling snow grain */
+    opacity: 0.6;
+    z-index: 100;
+    pointer-events: none;
+    animation: snowDrift 0.5s infinite linear;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-50px); opacity: 0; }
+}
+
+.customer-npc {
+    transition: transform 0.1s;
+}
+.customer-npc:hover {
+    transform: scale(1.1);
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.want-icon {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.mini-game-wrapper {
+    /* Sized by whichever is smallest: 60% of viewport width, or the
+       widest 4:3 box that still fits in 80% of viewport height. Keeps
+       the minigame (and its D-pad) fully visible without scrolling on
+       shorter screens — laptops with limited vertical space, and
+       phones held sideways in landscape. */
+    width: min(60vw, calc(80vh * 4 / 3), 1000px);
+    max-width: 1000px; /* Closer to original size on 1440p */
+    aspect-ratio: 4 / 3; /* Mandatory retro feel */
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    background-size: auto 100% !important; 
+    background-repeat: repeat-x !important;
+    background-position: 0 0;
+    image-rendering: pixelated;
+    border: 4px solid gold;
+    container-type: size; /* Changed to 'size' for height-awareness */
+}
+
+/* Recalibrated Ratios for 4:3 Container */
+/* 120px wagon / 618px width = ~19.4% */
+.wagon-sprite { 
+    width: 19.4cqw; 
+    height: auto; 
+    position: absolute; 
+    z-index: 50; 
+}
+
+/* 80px trader / 618px width = ~12.9% */
+.trader-sprite { 
+    width: 12.9cqw; 
+    height: auto; 
+    position: absolute; 
+    z-index: 40; /* Behind wagon for layered depth */
+}
+
+/* 40px icon / 618px width = ~6.5% */
+.desire-icon { 
+    width: 6.5cqw; 
+    height: auto; 
+}
+
+/* On-screen D-pad overlays for the raft / Mormon handcart / Bozeman
+   finale minigames. These exist purely so touch users have a way to
+   steer — anyone with a real pointer already has keyboard controls and
+   doesn't need buttons eating screen space over the action.
+   (hover:none)+(pointer:coarse) targets the device's PRIMARY input, so
+   a touchscreen laptop still driven by a mouse/trackpad correctly keeps
+   these hidden, while phones and tablets show them. */
+.dpad-touch-controls,
+.dpad-hint {
+    display: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .dpad-touch-controls.dpad-grid { display: grid; }
+    .dpad-touch-controls.dpad-flex { display: flex; }
+    .dpad-hint { display: inline; }
+}
+
+@keyframes messagePop {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.05); color: #fff; }
+    100% { transform: translateX(-50%) scale(1); }
+}
+
+/* The CRT Glass Effect */
+.nostalgia-crt {
+    position: relative;
+    overflow: hidden;
+    /* Subtle curve effect using a radial gradient overlay */
+    background: radial-gradient(circle, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 100%);
+    transition: all 0.3s ease;
+}
+
+/* Scanlines and Phosphor Grid */
+.nostalgia-crt::after {
+    content: " ";
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    /* Horizontal scanlines + Vertical phosphor mask */
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 3px, 3px 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* The flickering screen glow */
+.nostalgia-crt::before {
+    content: " ";
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: rgba(18, 16, 16, 0.03);
+    opacity: 0;
+    z-index: 1001;
+    pointer-events: none;
+    animation: crtFlicker 0.15s infinite;
+}
+
+@keyframes crtFlicker {
+    0% { opacity: 0.1; }
+    50% { opacity: 0.05; }
+    100% { opacity: 0.08; }
+}
+
+/* Slight RGB aberration/blur */
+.nostalgia-crt-active {
+    filter: contrast(1.1) brightness(1.1) saturate(1.2) sepia(5%);
+    text-shadow: 1px 0px 1px rgba(255,0,0,0.5), -1px 0px 1px rgba(0,0,255,0.5);
+}
+
+/* The Vignette Overlay */
+.crt-vignette {
+    content: " ";
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    /* Soft black corners that fade toward the center */
+    background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.4) 100%);
+    pointer-events: none;
+    z-index: 1002; /* Sit above the scanlines and glow */
+}
+
+/* Subtle Screen Curvature (Distortion) */
+.nostalgia-crt {
+    transition: transform 0.3s ease;
+    /* This slightly "bulges" the container to mimic a convex screen */
+    transform: scale(1.02);
+    border-radius: 20px; /* Rounded corners for the "tube" frame */
+}
+
+/* Hard Mode Visuals: Gritty, high contrast, and slightly desaturated */
+.hard-mode-glitch {
+    filter: contrast(150%) brightness(80%) saturate(50%) sepia(30%) !important;
+    transition: filter 0.5s ease-in-out;
+}
+
+/* Optional: Add a subtle 'heavy film grain' feel for Hard mode */
+.hard-mode-glitch::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: url('../img/asfalt-dark.png');
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 5;
+}
+
+#ghost-sprite {
+    position: absolute;
+    width: 100px;
+    height: auto;
+    bottom: 100px;
+    left: 20%; /* Hovering behind/above the wagon */
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+    pointer-events: none;
+    z-index: 10;
+    filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5)) blue(1px);
+    animation: ghostFloat 3s ease-in-out infinite;
+    display: none;
+}
+
+@keyframes ghostFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-15px) rotate(2deg); }
+}
+
+/* Increase touch targets for all buttons on mobile */
+@media (max-width: 1280px) {
+    .btn, .action-btn, #close-map-btn {
+        min-height: 44px; /* Apple/WCAG recommended minimum touch target */
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+    }
+
+    /* Prevent text selection when tapping rapidly (prevents annoying blue highlights) */
+    body {
+        -webkit-user-select: none;
+        user-select: none;
+        background-attachment: scroll;
+		font-size: 0.6rem;
+    }
+
+    h1 {
+		font-size: 1.5rem;
+    }
+	
+    h3 {
+		font-size: 1.3rem;
+    }
+	
+    h5 {
+		font-size: 1.2rem;
+    }
+	
+    .game-wrapper {
+        width: 98%;
+        padding: 10px;
+        margin: 5px auto;
+		place-items: center;
+        /* Ensure inputs don't zoom the screen on focus (iOS fix) */
+
+    }
+	
+    input, select, button {
+        font-size: 16px; /* iOS Safari zooms the whole page in on focus for any input under 16px */
+    }
+    
+    input {
+        font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+		user-select: auto; /* Re-enable for inputs */
+    }
+
+    /* .store-row input's own font-size (below) beats the rule above on
+       specificity and would re-trigger the zoom it just fixed */
+    #store input {
+        font-size: 16px;
+    }
+
+    /* Fix for the Modal content being too small/cramped */
+    .modal-child {
+        width: 95% !important;
+        padding: 15px !important;
+    }
+
+    .store-header {
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      text-align: center;
+    }
+
+    .store-header h2 {
+      font-size: 1.125em;
+      margin: 0.2em 0;
+    }
+
+    .store-header h3 {
+      font-size: 1.25em;
+      margin: 0.2em 0;
+      white-space: normal;
+    }
+	
+    #store {
+        font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 0.7rem;
+        text-align: center;
+		justify-content: center;
+		margin: auto;
+		place-items: center;
+		position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    }
+	
+    #store .store-fields {
+         font-size: 0.8rem;
+		 padding: 10px;
+         border: 1px solid black;
+		 width: 90%;
+         margin: 0 auto;
+		 position: relative;
+    }
+	
+    .store-row {
+        font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 0.8rem;
+    }
+	
+    #store-table {
+        font-size: 0.7rem;
+    }
+
+    .mini-game-wrapper {
+        /* Same height-aware sizing as the base rule, just against a wider
+           95vw ceiling — this is what keeps the raft/Mormon/Bozeman
+           finales from being taller than a landscape phone's screen. */
+        width: min(95vw, calc(88vh * 4 / 3));
+    }
+
+}
+
+/* Small, thumb-friendly toggle buttons */
+.toggle-btn {
+    background: #444;
+    color: white;
+    border: 1px solid #000;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+}
+
+/* State for collapsed panels */
+.collapsed {
+    display: none !important;
+	height: auto; 
+    padding-bottom: 0 !important;
+    margin-bottom: 10px !important;
+}
+
+@media (max-width: 768px) {
+    /* Ensure the containers don't leave awkward gaps when collapsed */
+    .status-panel, .ongoing-text-box {
+        margin-bottom: 5px;
+    }
+    
+    .panel-header h3 {
+        font-size: 1rem;
+    }
+}
+
+.achievement-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #ffd700;
+    padding: 15px;
+    border-radius: 8px;
+    z-index: 9999;
+    font-family: 'Courier New', monospace;
+    animation: slideIn 0.5s ease-out;
+}
+
+.achievement-popup.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+.achievement-grid {
+    display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    padding: 20px;
+    background: #111;
+    border: 2px solid #333;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+    .achievement-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 560px) {
+    .achievement-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 12px;
+    }
+}
+
+.achievement-card {
+    padding: 15px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: #222;
+    color: #666; /* Default: Greyed out */
+}
+
+/* Gold state for unlocked achievements */
+.achievement-card.unlocked {
+    border-color: #ffd700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    color: #ffd700; /* Bright Gold */
+    background: #332b00;
+}
+
+.achievement-card h4 {
+    margin: 0 0 5px 0;
+    font-family: 'Courier New', monospace;
+}
+
+.achievement-card p {
+    font-size: 0.8rem;
+    margin: 0;
+    font-style: italic;
+}
+
+@media (max-width: 600px) {
+    .mobile-hide {
+        display: none;
+    }
+}
+
+@keyframes slowRainbow {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+.rainbow-cycle {
+    animation: slowRainbow 12s linear infinite !important;
 }

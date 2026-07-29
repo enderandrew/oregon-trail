@@ -1,243 +1,433 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html>>
+<html lang="en-us">
 <head>
   <title>Oregon Trail</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css?family=Londrina+Solid:300,400,900" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link href="css/jquery-ui.css" rel="stylesheet">
-  <link href="css/styles.css" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
-  <script src="js/scripts.js"></script>
-  <audio id ="jesusSnatch" src="sounds/jesusWheel.mp3" preload="auto"></audio>
-  <audio id ="shotgun-fire" src="sounds/shotgun.mp3" preload="auto"></audio>
-  <audio id ="shotgun-dry" src="sounds/dry-fire.mp3" preload="auto"></audio>
-  <audio id ="openingSong" src="sounds/openingSong.mp3" preload="auto"></audio>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="icon" type="image/png" href="./favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="shortcut icon" href="./favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Oregon Trail" />
+  <link rel="manifest" href="./site.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rye&display=swap" rel="stylesheet">
+  <link href="css/styles.min.css" rel="stylesheet">
+  <script src="js/scripts.min.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <meta name="google-site-verification" content="Fw32VtOfNNMYuxwq-LDxGbzuY7QIxjvQmLuWnv6FTGY" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C7FZLTKS4Q"></script>
+  	<script>
+  	window.dataLayer = window.dataLayer || [];
+  	function gtag(){dataLayer.push(arguments);}
+  	gtag('js', new Date());
+  	
+  	gtag('config', 'G-C7FZLTKS4Q');
+  </script>
 </head>
 <body>
-  <div class="container">
-    <!-- Character setup screen -->
+  <div class="game-wrapper">
     <div id="characterSetup">
       <div id="start">
         <div class="main-title">
           <h1>The Oregon Trail</h1>
+		  <h3 title="Maybe not EXACTLY the same." class="mobile-hide">Exactly as you remember it...</h3>
+		  <h5 title="It won't just be from dysentery." class="mobile-hide">You will die a lot</h5>
         </div>
-        <div class="icon-animate">
-          <!-- <img src="img/beans.png" alt=""> -->
-        </div>
-        <div class="icon-wagon">
-          <!-- <img src="img/beans.png" alt=""> -->
-        </div>
+        <div class="icon-animate"></div>
+        <div class="icon-wagon"></div>
         <img src="img/start-cover.jpg" alt="valley">
-        <span id="startBTN" class="btn btn-success">Start</span>
+        <button id="startBTN" class="btn btn-success" title="The trail won't walk itself. Yet.">Start New Game</button>
+		<button id="resumeBTN" class="btn btn-warning" style="display: none;" title="Pick up where you left off. The dysentery waited for you.">Resume Game</button>
+        <button id="achievementsBTN" class="btn btn-warning" onclick="showAchievements()" title="A shrine to your questionable accomplishments.">Achievements</button>
+        <button id="challengesBTN" class="btn btn-info" onclick="showChallengesMenu()" title="For when regular suffering isn't enough.">Challenges</button>
+        <button id="leaderboardBTN" class="btn btn-success" onclick="showLeaderboardUI()" title="Strangers who died better than you.">Leaderboard</button>
+        <button id="realOldSchoolBTN" class="btn btn-dark" onclick="window.location.href='./og/index.html'" title="No graphics. No jokes. Just you, a green cursor, and 8-bit dysentery.">Real Old School</button>
+		<br /><br /><p align="center" title="Puddles the Duck and I share a special love. You wouldn't understand.">This is a non-commercial satirical game. We claim no ownership of The Oregon Trail IP, nor The Oregon Trail trademark. We do however, claim the state of Oregon. It is now ours. We planted a flag in it. That is how that works. The Oregon Ducks mascot has to come live with me now.</p>
       </div>
-        <div id="characterInput">
-          <h1>The Oregon Trail</h1>
-          <div class="row">
-            <div id="profession" class="col-md-3">
-              <p>Select your profession</p>
-              <div class="prettyColumn">
-                <div id="radio1">
-                  <label><input type="radio" name="profession" value="1" checked> Banker</label>
-                  <span class="tooltiptext">The Banker starts with $1000 and no initial food.</span>
-                </div>
-                <div id="radio2">
-                  <label><input type="radio" name="profession" value="2"> Doctor</label>
-                  <span class="tooltiptext">The Doctor starts with $800 and no initial food.</span>
-                </div>
-                <div id="radio3">
-                  <label><input type="radio" name="profession" value="3"> Farmer</label>
-                  <span class="tooltiptext">The Farmer starts with $500 and 500lbs of initial food.</span>
-                </div>
-                <div id="radio4">
-                  <label><input type="radio" name="profession" value="4"> Rancher</label>
-                  <span class="tooltiptext">The Rancher starts with $750 and 250lbs of initial food.</span>
-                </div>
-                <div id="radio5">
-                  <label><input type="radio" name="profession" value="5"> Merchant</label>
-                  <span class="tooltiptext">The Merchant starts with $900 and 100lbs of initial food.</span>
-                </div>
-                <div id="radio6">
-                  <label><input type="radio" name="profession" value="6"> Teacher</label>
-                  <span class="tooltiptext">The Teacher starts with $550 and no initial food.</span>
-                </div>
+
+      <div id="characterInput">
+        <h1>The Oregon Trail</h1>
+        <div class="layout-grid-setup">
+          <div id="profession" class="panel">
+            <p>Profession</p>
+            <div class="prettyColumn">
+              <div id="radio1">
+                <label><input type="radio" name="profession" value="Banker" checked>Banker</label>
+                <span class="tooltiptext">The Banker starts with $1600, no skills and the resentment of the working class.</span>
               </div>
-              <span id="characterBTN" class="btn btn-success">Next</span>
-            </div>
-            <div id="charNameInput" class="col-md-3">
-              <p>Type in the names of your party:</p>
-              <div class="prettyColumn">
-                <input id="char1" type="text" placeholder="name player 1" value="Wild Bill">
-                <input id="char2" type="text" placeholder="name player 2" value="Josephine">
-                <input id="char3" type="text" placeholder="name player 3" value="Cookie">
-                <input id="char4" type="text" placeholder="name player 4" value="Wyatt Twerp">
-                <input id="char5" type="text" placeholder="name player 5" value="Lil' Bobby">
+              <div id="radio2">
+                <label><input type="radio" name="profession" value="Doctor" checked>Doctor</label>
+                <span class="tooltiptext">The Doctor starts with $1200 and the Medical skill. Their parents are so proud.</span>
+              </div>
+              <div id="radio3">
+                <label><input type="radio" name="profession" value="Merchant" checked>Merchant</label>
+                <span class="tooltiptext">The Merchant starts with $1200 and the Trade skill. I wonder if they wish they could trade for a different skill.</span>
+              </div>
+              <div id="radio4">
+                <label><input type="radio" name="profession" value="Gunsmith" checked>Gunsmith</label>
+                <span class="tooltiptext">The Gunsmith starts with $800 and the Sharpshooter skill. I'm not arguing with nor criticisizng the person with the gun.</span>
+              </div>
+              <div id="radio5">
+                <label><input type="radio" name="profession" value="Carpenter" checked>Carpenter</label>
+                <span class="tooltiptext">The Carpenter starts with $800 and the Repair skill and a bunch of Jesus comparisons.</span>
+              </div>
+			  <div id="radio6">
+                <label><input type="radio" name="profession" value="Fisherman" checked>Fisherman</label>
+                <span class="tooltiptext">The Fisherman starts with $800 and the Fishing skill. They are always fishing for compliments.</span>
+              </div>
+			  <div id="radio7">
+                <label><input type="radio" name="profession" value="Hunter" checked>Hunter</label>
+                <span class="tooltiptext">The Hunter starts with $600 and the Tracking skill. And they are on track to get picked by everyone who loves the Hunting game.</span>
+              </div>
+			  <div id="radio8">
+                <label><input type="radio" name="profession" value="Guide" checked>Guide</label>
+                <span class="tooltiptext">The Guide starts with $500 and the Survival skill. Not dying is a useful skill.</span>
+              </div>
+			  <div id="radio9">
+                <label><input type="radio" name="profession" value="Gamer" checked>Gamer</label>
+                <span class="tooltiptext">The Video Gamer starts with $500, picks whatever 2 skills they want and breaks the 4th Wall.</span>
+              </div>
+			  <div id="radio10">
+                <label><input type="radio" name="profession" value="Farmer" checked>Farmer</label>
+                <span class="tooltiptext">The Farmer starts with $400 and the Animal Handling skill. I heard Furries like to handle animals.</span>
+              </div>
+			  <div id="radio11">
+                <label><input type="radio" name="profession" value="Prospector" checked>Prospector</label>
+                <span class="tooltiptext">The Prospector starts with $400 and the Prospecting skill. Ironically they do not start with any dating prospects.</span>
+              </div>
+			  <div id="radio12">
+                <label><input type="radio" name="profession" value="Tailor" checked>Tailor</label>
+                <span class="tooltiptext">The Tailor starts with $400 and the Sewing skill. They were tailor made for this game.</span>
+              </div>
+			  <div id="radio13">
+                <label><input type="radio" name="profession" value="Teacher" checked>Teacher</label>
+                <span class="tooltiptext">The Teacher starts with $400 and no skills. Those who can't, teach.</span>
               </div>
             </div>
-            <div class="col-md-6">
-              <img src="img/ox.png" alt="valley">
+            <button id="characterBTN" class="btn btn-success" title="Assemble your doomed little family.">Next</button>
+          </div>
+
+          <div id="charNameInput" class="panel">
+            <p>Party Names:</p>
+            <div class="prettyColumn">
+              <input id="char1" type="text" placeholder="name player 1" value="Doc Holiday Inn">
+              <input id="char2" type="text" placeholder="name player 2" value="Annie Oak-leaf">
+              <input id="char3" type="text" placeholder="name player 3" value="Calamity Mary Jane">
+              <input id="char4" type="text" placeholder="name player 4" value="Wyatt Twerp">
+              <input id="char5" type="text" placeholder="name player 5" value="Billy Your Kid">
             </div>
           </div>
+          <div class="setup-group">
+              <label for="trail-choice">Select Your Destiny:</label><br>
+              <select id="trail-choice" onchange="applyTrailChoice()" style="...">
+                  <option value="Oregon">The Oregon Trail (Standard)</option>
+                  <option value="California">The California Trail (Donner Pass)</option>
+                  <option value="Mormon">The Mormon Trail (Religious Freedom)</option>
+                  <option value="Santa Fe">The Santa Fe Trail (Trading)</option>
+                  <option value="Bozeman">The Bozeman Trail (Hardcore Mode)</option>
+				  <option value="UNO Reverse">UNO Reverse (⸮tahW)</option>
+				  <option value="Random">Random (⸮?⸮?)</option>
+				  <option value="Ironman">Ironman Mode (Endless, not Tony Stark)</option>
+              </select>
+              <div id="difficulty-selection" style="margin-top: 20px;">
+                  <label for="difficulty">Select your level of suffering:</label><br>
+                  <select id="difficulty" name="difficulty">
+                      <div id="radio14"><option value="Easy">Narrative Experience</option><span class="tooltiptext">If you are just here for nostalgia and laughs rather than a challenge, I won't judge. Others will, but I won't.</span></div>
+                      <div id="radio15"><option value="Normal" selected>Original 1848 Experience</option><span class="tooltiptext">Honestly, maybe a little harder than the original Apple II version but that was aimed at little kids.</span></div>
+                      <div id="radio16"><option value="Hard">Dark Souls of the West</option><span class="tooltiptext">Permadeath is a lifestyle choice. I can respect that.</span></div>
+                      <div id="radio17"><option value="New Game+" disabled>New Game+</option><span class="tooltiptext">Beat the game once to unlock. Everything that was already trying to kill you is trying harder, and it remembers your dog.</span></div>
+                  </select>
+              </div>
+              <div id="draft-animal-selection" style="margin-top: 20px;">
+                  <label for="draft-animal-choice">Select your draft animal:</label><br>
+                  <select id="draft-animal-choice" name="draft-animal-choice" onchange="applyDraftAnimalChoice()">
+                      <option value="Oxen" selected title="~$25/head. Cheapest, strongest, and toughest of the three — best at pulling a heavy load. Thieves take one look and leave in disappointment.">Oxen</option>
+                      <option value="Mules" title="~$30/head. Faster than oxen and shrug off desert crossings (less health penalty when water runs low), but stubborn — some days they simply refuse to move, no matter what. Animal Handling helps.">Mules</option>
+                      <option value="Horses" title="~$40/head. Fastest pace of the three, but can't pull as much weight as oxen, and they're a magnet for outlaws looking to steal your team.">Horses</option>
+                      <option value="Mechanical Bull" title="~$100/head. Rides like a dream. Pulls like a nightmare. What could possibly go wrong?">Mechanical Bull</option>
+                  </select>
+                  <p style="font-size: 0.8em; color: #666; margin: 4px 0 0;">This choice is locked in for the rest of the run — choose carefully.</p>
+              </div>
+              <div id="month-picker">
+                  <p>Starting month:</p>
+                  <select id="start-month">
+                      <option value="March">March</option>
+                      <option value="April">April</option>
+                      <option value="May">May</option>
+			    	  <option value="June">June</option>
+			    	  <option value="July">July</option>
+			    	  <option value="August">August</option>
+                  </select>
+                  <div id="ox" class="panel image-display">
+                    <img id="draft-animal-preview-img" src="img/ox.png" title="This ox is just the fluffliest." alt="draft animal preview">
+			    	<span class="tooltiptext">This is what's currently pulling your wagon.</span>
+                  </div>
+              </div>
+          </div>
         </div>
-      </div>
-    <!-- inital store screen -->
+      
+	  </div>
+    </div>
+
     <div id="store">
       <div class="store-fields">
-        <div class="store-titles">
-        <h2>Mercantile</h2>
-        <h3>you have: $<span class="wagon-money-remaining"></span></h3>
+        <div class="store-header">
+          <h2 title="My lawyer advised me not to speak about the incident.">Matt's General Store. Since the incident, we no longer sell mats, nor Generals.</h2>
+          <h3>you have: $<span class="wagon-money-remaining"></span></h3>
         </div>
-        <div class="row" id="upper-store-fields">
-          <div class="col-md-3">
-            <p>Amount</p>
+        <div class="store-grid">
+          <div class="store-row header-row">
+            <div>Amount</div><div>Item</div><div>Cost</div><div>Total</div>
           </div>
-          <div class="col-md-3">
-            <p>Item</p>
+          <div class="store-row" id="oxen-fields" title="You can't pull a wagon with fewer than 2. I recommend 6 or more for a fully loaded wagon. Plus, the extra oxen can be your fuzzy friends on cold nights.">
+            <div><input type="number" inputmode="numeric" pattern="[0-10]*" name="oxen" value="2" max="20"></div>
+            <div>Oxen</div>
+            <div id="oxen-unit-price">$20.00</div>
+            <div class="oxen-total"></div>
           </div>
-          <div class="col-md-3">
-            <p>Cost</p>
+          <div class="store-row" id="clothing-fields" title="Personally, I don't judge weird nudist families. But clothing may stave off illness, particularly in bad weather.">
+            <div><input type="number" inputmode="numeric" pattern="[0-10]*" name="clothing" value="0" max="50"></div>
+            <div>Sets of Clothing</div>
+            <div id="clothing-unit-price">$10.00</div>
+            <div class="clothing-total"></div>
           </div>
-          <div class="col-md-3">
-            <p>Total</p>
+          <div class="store-row" id="bullet-fields" title="I had a customer once say he just wanted to buy the bullets first and then do the rest of the shopping after. Weird.">
+            <div><input type="number" inputmode="numeric" pattern="[0-10]*" name="bullets" value="10" max="99"></div>
+            <div>Bullets</div>
+            <div>$0.50</div>
+            <div class="bullet-total"></div>
+          </div>
+          <div class="store-row" id="wheels-fields" title="The wheels on the wagon go round and round, until Jesus takes the wheel and you don't have a spare.">
+            <div><input type="number" inputmode="numeric" pattern="[0-10]*" name="wheels" value="0" max="3"></div>
+            <div>Spare Wagon Wheels</div>
+            <div>$10.00</div>
+            <div class="wheels-total"></div>
+          </div>
+          <div class="store-row" id="axles-fields" title="Sadly these aren't Axel Foleys. He isn't born yet. Since he doesn't exist, buy a spare.">
+            <div><input type="number" inputmode="numeric" pattern="[0-10]*" name="axles" value="0" max="3"></div>
+            <div>Spare Wagon Axles</div>
+            <div>$10.00</div>
+            <div class="axles-total"></div>
+          </div>
+          <div class="store-row" id="tongues-fields" title="If you have multiple tongues, can you speak in tongues?">
+            <div><input type="number" inputmode="numeric" pattern="[0-10]*" name="tongues" value="0" max="3"></div>
+            <div>Spare Wagon Tongues</div>
+            <div>$10.00</div>
+            <div class="tongues-total"></div>
+          </div>
+          <div class="store-row" id="medicine-fields" title="When little Billy is super sick with a deadly illness, you'll be glad you bought a bought of kid-friendly Morphine!">
+            <div><input type="number" inputmode="numeric" pattern="[0-10]*" name="medicine" value="0" max="10"></div>
+            <div>Bottles of Medicine</div>
+            <div>$5.00</div>
+            <div class="medicine-total"></div>
+          </div>
+          <div class="store-row" id="food-fields" title="Most humans need food unless you're some sentient AI from the future. If so, I have no idea where John Conner is.">
+            <div><input type="number" inputmode="numeric" pattern="[0-10]*" name="food" value="500" max="2000"></div>
+            <div>Pounds of Food</div>
+            <div>$0.20</div>
+            <div class="food-total"></div>
+          </div>
+          <div class="store-row" id="books-fields" title="Spending 6 months or longer in a wagon all day, having some entertainment can stave off madness. Then again, some of us don't mind going mad.">
+            <div><input type="number" inputmode="numeric" pattern="[0-10]*" name="books" value="0"></div>
+            <div>Books</div>
+            <div>$2.00</div>
+            <div class="books-total"></div>
+          </div>
+          <div class="store-row" id="junk-fields" title="The whole point of risking life and limb to trek across the unforgiving landscape is to take people's random junk there.">
+            <div><input type="number" inputmode="numeric" pattern="[0-10]*" name="junk" value="0"></div>
+            <div>Random Junk</div>
+            <div>$5.00</div>
+            <div class="junk-total"></div>
+          </div>
+          <div class="store-row" id="firewood-fields" title="Each night burns 1 bundle (+1 if resting, +1 when cold). A dark camp attracts thieves, raw-bacon regret, and noises that are definitely not Bigfoot.">
+            <div><input type="number" inputmode="numeric" pattern="[0-10]*" name="firewood" value="10" max="60"></div>
+            <div>Firewood Bundles</div>
+            <div id="firewood-unit-price">$1.00</div>
+            <div class="firewood-total"></div>
+          </div>
+          <div class="store-row" id="water-fields" title="Comes full. Each person drinks a share daily — double in the desert. Refill in rivers and rainstorms. Humans famously stop working without this.">
+            <div><input type="number" inputmode="numeric" pattern="[0-10]*" name="water" value="2" max="6"></div>
+            <div>Water Barrels (full)</div>
+            <div>$4.00</div>
+            <div class="water-total"></div>
           </div>
         </div>
-        <div class="row" id="food-fields">
-          <div class="col-md-3">
-            <input type="number" name="food" placeholder="0" value="500">
-          </div>
-          <div class="col-md-3">
-            <p>Pounds of Food</p>
-          </div>
-          <div class="col-md-3">
-            <p>$0.20</p>
-          </div>
-          <div class="col-md-3">
-            <p class="food-total"></p>
-          </div>
+        <div class="store-actions">
+          <button id="back-button" class="btn btn-danger" title="Retreat! Tactically.">Back</button>
+          <button id="leave-store-btn" class="btn btn-danger" style="display: none;" title="Escape before the shopkeeper upsells you an ox.">I Was Just Browsing</button>
+          <button id="subtotal" class="btn btn-warning" title="The damage, tallied. Brace yourself.">Sub-Total</button>
+          <button id="storeBTN" class="btn btn-success" title="Buy now, regret at the first river crossing.">Buy</button>
+          <p class="store-total">$0</p>
         </div>
-        <div class="row" id="bullet-fields">
-          <div class="col-md-3">
-            <input type="number" name="bullets" placeholder="0" value="10">
-          </div>
-          <div class="col-md-3">
-            <p>Bullets</p>
-          </div>
-          <div class="col-md-3">
-            <p>$0.10</p>
-          </div>
-          <div class="col-md-3">
-            <p class="bullet-total"></p>
-          </div>
-        </div>
-        <span id="back-button" class="btn btn-danger">Back</span>
-        <span id="subtotal" class="btn btn-warning">Sub-Total</span>
-        <span id="storeBTN" class="btn btn-success">Buy</span>
-        <p class="store-total">$0</p>
       </div>
     </div>
-    <!-- main gameplay screen -->
+
     <div id="gameMainScreen">
-      <div class="row">
-        <div class="col-md-8">
+      <div class="layout-grid-main">
+        <div class="game-area">
           <div id="faq">
-            <img src="img/faq.png" alt="Help button">
-            <p class="tooltiptext">You must travel 500 miles reach the goal.<br>Click 'continue' to travel 10 miles per day.<br>Click 'rest' to heal your team members.<br>Click 'hunt' to gather more food.<br>All actions spend one day, and each team member eats 5 food per day.</p>
+            <img src="img/faq.png" id="faq-img" alt="Help button">
+            <p class="tooltiptext" id="faq-tooltiptext">You are looking for help? You are beyond help.</p>
           </div>
-          <h1>The Oregon Trail</h1>
-          <div class="row" id="wagon-images">
-            <div class="col-md-2">
-              <img src="img/wagon.png" id="wagon-6" alt="wagon">
-              <img src="img/wheel.svg" id="wheel-6" alt="wheel">
-              <img src="img/jesus.svg" id="jesus" alt="jesus">
-              <img src="img/shining.svg" id="star" alt="star">
+        
+          <div id="game-viewbox">
+            <canvas id="trail-canvas"></canvas>
+            <div id="layer-background" class="parallax-layer">
+			    <img src="img/ghostwagon.png" id="ghost-wagon" alt="Ghost Wagon" 
+         style="display: none; position: absolute; pointer-events: none; z-index: 5; 
+                top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0;">
+			</div>
+			<div id="weather-overlay"></div>
+            
+            <div id="layer-landmark" class="parallax-layer">
+                <img src="img/landmarks/placeholder.png" id="landmark-graphic" alt="landmark">
             </div>
-            <div class="col-md-2">
-              <img src="img/wagon.png" id="wagon-5" alt="wagon">
-              <img src="img/wheel.svg" id="wheel-5" alt="wheel">
+        
+            <div id="layer-ground"></div>
+        
+            <div id="wagon-anchored">
+              <img src="img/oxen_animated.gif" id="oxen-sprite" alt="An ox named oxen, which is on the nose." title="An ox named oxen, which is on the nose.">
+              <div class="wagon-body-container">
+                  <img src="img/wagon_side.gif" id="wagon-body" alt="wagon">
+				  <img src="img/jesus.svg" id="jesus" class="overlay" alt="Jesus" aria-hidden="true" hidden>
+                  <img src="img/shining.svg" id="star" class="overlay" alt="star" aria-hidden="true" hidden>
+				  <img src="img/ghost.png" id="ghost-sprite" class="overlay" alt="Spectral Companion" aria-hidden="true" hidden>
+              </div>
             </div>
-            <div class="col-md-2">
-              <img src="img/wagon.png" id="wagon-4" alt="wagon">
-              <img src="img/wheel.svg" id="wheel-4" alt="wheel">
-            </div>
-            <div class="col-md-2">
-              <img src="img/wagon.png" id="wagon-3" alt="wagon">
-              <img src="img/wheel.svg" id="wheel-3" alt="wheel">
-            </div>
-            <div class="col-md-2">
-              <img src="img/wagon.png" id="wagon-2" alt="wagon">
-              <img src="img/wheel.svg" id="wheel-2" alt="wheel">
-            </div>
-            <div class="col-md-2">
-              <img src="img/wagon.png" id="wagon-1" alt="wagon">
-              <img src="img/wheel.svg" id="wheel-1" alt="wheel">
+        
+            <div id="viewbox-message-overlay">
+              <p id="current-action-msg">Press CONTINUE to begin...</p>
             </div>
           </div>
+        
+          <div id="action-prompt">
+            <p id="current-event-msg">Welcome to the trail. You do not yet have dysentry.</p>
+          </div>
+        
+          <div class="progress-container">
+            <p id="progress-title">Journey progress to <span id="next-stop-name">Kansas River</span>:</p>
+            <progress id="main-progressbar" value="0" max="100"></progress>
+          </div>
+        
           <div id="ongoing-text-box">
-            <p class="ongoing-events">You must travel 500 miles reach the goal.<br>Click 'continue' to travel 10 miles per day.<br>Click 'rest' to heal your team members.<br>Click 'hunt' to gather more food.<br>All actions spend one day, and each team member eats 5 food per day.</p>
-          </div>
-          <p id="progress-title">Journey progress:</p>
-          <div id="progressbar"></div>
-        </div>
-        <div class="col-md-4">
-          <div id="sacrifice-button">
-            <img id="sacrifice" src="img/skull.png" alt="Sacrifice Team">
-            <p class="tooltiptext">Clicking on this button will sacrifice your entire team. You will be reincarnated back at the start of the trail.</p>
-          </div>
-          <h2>Team Conditions</h2>
-          <div class="prettyColumn" id="status-panel">
-            <p class="bold">Days elapsed: <span class="current-date">0</span></p>
-            <p class="bold">Distance traveled: <span class="distance-traveled">0</span></p>
-            <ul>
-              <li><span id="player-one-name"></span>: <span id="player-one-status"></span><div id="char1-health-bar" class="health-bar"></div><span>Illnesses: <span id="player-one-illness"></span></span></li>
-              <li><span id="player-two-name"></span>: <span id="player-two-status"></span><div id="char2-health-bar" class="health-bar"></div><span>Illnesses: <span id="player-two-illness"></span></span></li>
-              <li><span id="player-three-name"></span>: <span id="player-three-status"></span><div id="char3-health-bar" class="health-bar"></div><span>Illnesses: <span id="player-three-illness"></span></span></li>
-              <li><span id="player-four-name"></span>: <span id="player-four-status"></span><div id="char4-health-bar" class="health-bar"></div><span>Illnesses: <span id="player-four-illness"></span></span></li>
-              <li><span id="player-five-name"></span>: <span id="player-five-status"></span><div id="char5-health-bar" class="health-bar"></div><span>Illnesses: <span id="player-five-illness"></span></span></li>
-            </ul>
-            <div class="row" id="supplies">
-              <div class="col-md-4">
-                <img src="img/restaurant.png" alt="food">
-                <p class="bold"> Food left <br><span id="wagon-food-remaining"></span></p>
-              </div>
-              <div class="col-md-4">
-                <img src="img/bullet.png" alt="bullets">
-                <p class="bold"> Bullets left <br><span id="wagon-bullets-remaining"></span></p>
-              </div>
-              <div class="col-md-4">
-                <img src="img/money-bag.png" alt="money">
-                <p class="bold"> Money left <br><span class="wagon-money-remaining"></span></p>
-              </div>
+            <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin:0;">Recent Events</h3>
+                <button class="toggle-btn" onclick="togglePanel('events-content', this)" title="Collapse the drama. It'll still be there.">−</button>
             </div>
+            <div id="events-content" class="ongoing-events">
+                <p class="ongoing-events">Welcome to the trail.</p>
+			</div>
           </div>
-          <span id="rest-button" class="btn btn-info">Rest</span>
-          <span id="continue-button" class="btn btn-success">Continue</span>
-          <span id="hunt-button" class="btn btn-danger">Hunt</span>
+        </div>
+		
+        <div class="status-area">
+          <button id="mute-button" class="btn btn-secondary" title="Silence the suffering. The visual kind remains.">Mute</button>
+          <button id="speech-button" class="btn btn-secondary" title="Let the game read to you like a bedtime horror story.">🗣️ Speech: On</button>
+		  <div id="sacrifice-button">
+            <img id="sacrifice" src="img/skull.png" alt="Sacrifice Team">
+            <p class="tooltiptext">Clicking on this button will sacrifice your entire team.</p>
+          </div>
+          <div class="prettyColumn" id="status-panel">
+            <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin:0;">Party Status</h3>
+                <button class="toggle-btn" onclick="togglePanel('status-content', this)" title="Hide the bad news. Ignorance is bliss.">−</button>
+            </div>
+            <div id="status-content">
+                Date: <span class="current-date"></span><br/>
+                Temp: <span class="current-temp"></span><br/>
+                Miles: <span class="distance-traveled"></span><br/>
+                To Next: <span class="miles-to-landmark"></span><br/>
+			    Profession: <span id="wagon-profession"></span><br/>
+			    Sanity: <span id="wagon-sanity-val">100</span>% 
+                <progress id="sanity-meter" value="100" max="100" style="width: 100%;"></progress><br/>
+                <ul id="party-list">
+                  <li><span id="player-one-name"></span>: <span id="player-one-status"></span><progress id="char1-health-bar" value="100" max="100" class="health-progress"></progress><span>Illnesses: <span id="player-one-illness"></span></span></li>
+			      <li><span id="player-two-name"></span>: <span id="player-two-status"></span><progress id="char2-health-bar" value="100" max="100" class="health-progress"></progress><span>Illnesses: <span id="player-two-illness"></span></span></li>
+			      <li><span id="player-three-name"></span>: <span id="player-three-status"></span><progress id="char3-health-bar" value="100" max="100" class="health-progress"></progress><span>Illnesses: <span id="player-three-illness"></span></span></li>
+			      <li><span id="player-four-name"></span>: <span id="player-four-status"></span><progress id="char4-health-bar" value="100" max="100" class="health-progress"></progress><span>Illnesses: <span id="player-four-illness"></span></span></li>
+			      <li><span id="player-five-name"></span>: <span id="player-five-status"></span><progress id="char5-health-bar" value="100" max="100" class="health-progress"></progress><span>Illnesses: <span id="player-five-illness"></span></span></li>
+                  </ul>
+                <div class="supply-grid">
+                  <div class="supply-item tooltip-trigger">
+                    <img src="./img/restaurant.png" alt="food">
+                    <p class="bold">Food<br><span id="wagon-food-remaining"></span></p>
+                    <span class="tooltiptext" id="food-tooltiptext"></span>
+                  </div>
+                  <div class="supply-item tooltip-trigger">
+                    <img src="./img/bullet.png" alt="bullets">
+                    <p class="bold">Bullets<br><span id="wagon-bullets-remaining"></span></p>
+                    <span class="tooltiptext" id="bullets-tooltiptext"></span>
+                  </div>
+                  <div class="supply-item tooltip-trigger">
+                    <img src="./img/money-bag.png" alt="money">
+                    <p class="bold">Money<br><span class="wagon-money-remaining"></span></p>
+                    <span class="tooltiptext" id="money-tooltiptext"></span>
+                  </div>
+                  <div class="supply-item tooltip-trigger">
+			        <img src="./img/ox-icon.png" alt="oxen">
+			    	<p>Oxen<br><span id="oxen-count"></span></p>
+			    	<span class="tooltiptext" id="oxen-tooltiptext"></span>
+			      </div>
+                  <div class="supply-item tooltip-trigger">
+                    <div class="emoji-icon" role="img" aria-label="firewood">🔥</div>
+                    <p class="bold">Firewood<br><span id="wagon-firewood-remaining"></span></p>
+                    <span class="tooltiptext" id="firewood-tooltiptext"></span>
+                  </div>
+                  <div class="supply-item tooltip-trigger">
+                    <div class="emoji-icon" role="img" aria-label="water">💧</div>
+                    <p class="bold">Water<br><span id="wagon-water-remaining"></span></p>
+                    <span class="tooltiptext" id="water-tooltiptext"></span>
+                  </div>
+                </div>
+			</div>
+          </div>
+          <div class="action-buttons-grid">
+              <button id="rest-button" class="btn btn-info" title="Sleep it off. Whatever 'it' turns out to be.">😴 Rest</button>
+              <button id="continue-button" class="btn btn-success tooltip-trigger">➡️ <span id="continue-button-label">Continue</span><span class="tooltiptext" id="continue-tooltiptext">Forward, ever forward, toward the next calamity.</span></button>
+              <button id="pace-button" class="btn btn-warning" title="Grueling, strenuous, or steady. All roads lead to beans.">🏃 Pace</button>
+              <button id="rations-button" class="btn btn-warning" title="Filling, meager, or bare-bones. Choose your slow starvation.">🍽️ Rations</button>
+              <button id="hunt-button" class="btn btn-danger tooltip-trigger">🔫 Hunt<span class="tooltiptext" id="hunt-tooltiptext">Shoot 2000 pounds of meat, carry back 100. Classic.</span></button>
+              <button id="fish-button" class="btn btn-info tooltip-trigger">🎣 Fish<span class="tooltiptext" id="fish-tooltiptext">Teach a family to fish, and they'll complain about it for weeks.</span></button>
+              <button id="preparations-button" class="btn btn-warning" title="Spend the day getting ready instead of moving. The road will still be there tomorrow.">🏕️ Preparations</button>
+              <button id="storytelling-button" class="btn btn-warning" title="Tell a lie big enough to make the day worth it.">📖 Storytelling</button>
+              <button id="gather-button" class="btn btn-info" title="Punch trees. Punch cows. It's a whole thing.">🧺 Gather</button>
+              <button id="prospecting-button" class="btn btn-danger" title="There's gold in them hills. And a lot of not-gold.">⛏️ Prospecting</button>
+              <button id="map-button" class="btn btn-info" title="You are here. 'Here' is the problem.">🗺️ Map</button>            
+              <button id="trade-button" class="btn btn-info" title="One man's junk is another man's slightly different junk.">🔄 Trade</button>
+			  <button id="save-button" class="btn btn-info" title="Preserve this moment. You may want to undo it later.">💾 Save</button>
+			  <button id="nostalgia-button" class="btn btn-info" title="Remember when things were simpler? Neither do the oxen.">🕹️ Nostalgia</button>
+          </div>
         </div>
       </div>
     </div>
-  <!-- <div id="map">
-
+    <div id="map-screen" style="display:none; position:relative; margin:auto;">
+        <img id="map-image" src="./img/map.png" style="height:auto; display:block; image-rendering:pixelated;">
+        
+        <svg id="map-svg-overlay" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" 
+             style="position:absolute; top:0; left:0; pointer-events:none;">
+            <path id="path-line" d="" fill="none" stroke="red" stroke-width="3" stroke-dasharray="5,5" />
+            <circle id="wagon-marker" cx="0" cy="0" r="6" fill="yellow" stroke="black" stroke-width="1" />
+        </svg>
+        
+        <div class="map-controls" style="position: absolute; bottom:-65px; width: 100%; text-align: center;">
+            <button id="view-graveyard-btn" class="btn btn-dark" onclick="showGraveyardUI()" title="Pay respects to the fallen. There's usually a crowd.">View Graveyard</button>
+            <button id="close-map-btn" class="btn btn-danger" title="Fold the map. It never folds back the same way.">Back to Trail</button>
+        </div>
+    </div>
   </div>
-  <div id="map-background">
 
-  </div> -->
-  </div>
-  <!-- The Modal -->
+  <div id="night-overlay" style="position:fixed; inset:0; background:#070710; opacity:0; pointer-events:none; z-index:900; transition:opacity 4s ease-in-out;"></div>
   <div id="myModal" class="modal">
-    <div class="modal-child">
-
-    </div>
-  </div>
-  <div id="buttonModal" class="modal2">
-    <div class="modal-child">
-      <div class="button-content">
-
+      <div class="modal-child">
+          <div id="modal-dynamic-content"></div>
+          
+          <div id="modal-buttons" class="buttons">
+              <button id="modal-save-btn" class="btn btn-success" style="display: none;" title="Commit to it. No takebacks.">Save</button>
+              <button id="modal-cancel-btn" class="btn btn-danger" style="display: none;" title="On second thought, absolutely not.">Cancel</button>
+          </div>
       </div>
-      <div class="buttons">
-        <span id="option1-button" class="btn btn-success">Option 1</span> <span id="option2-button" class="btn btn-success">Option 2</span>
-      </div>
-    </div>
   </div>
 </body>
 </html>

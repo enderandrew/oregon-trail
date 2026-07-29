@@ -1,0 +1,34 @@
+* UI/UX Visual Upgrade
+* Mobile: Gesture-Based Hunting - Instead of just tapping a button to hunt, I could implement a "Slingshot" or "Swipe to Aim" mechanic using the touchstart and touchend coordinates. This would make the hunting mini-game feel native to mobile rather than a ported desktop experience.
+* CSS: Fluid Typography for 1440p - To prevent the "squished" or "stretched" look on your high-res display, use Clamp for the main font sizes instead of fixed pixels.
+* Persistent LocalStorage Graveyard (The Rogue-lite Loop) - Since we have a massive array of death puns and tombstone assets, make the deaths persistent across entirely different save files. When a party member dies or a player gets a Game Over, push an object containing their name, causeOfDeath, route, and the exact milesTraveled into a global localStorage.getItem('globalGraveyard') array.
+* Route-Specific Survival Gimmicks (The 5/7 Destinies)
+	Oregon - ?
+	California - Donner Countdown. 120 days until massive snowstorm?
+	Santa Fe - Massive inflation across the trail
+	Mormon Trail - Piety meter?
+	Bozeman - bandit fights?
+	UNO Reverse - 
+	Random - ?
+* wagon.glitchMeter - Goes up with save scumming, cheat codes, and certain events.
+* Expand the Gamer-specific dialogue for positive and negative events
+* Beating each trail unlocks that mini-game on the main menu
+* Add another resource/meter like Hygiene
+* Backgrounds don't all tile
+* Add Missing Landmarks
+	Courthouse Rock
+	Scotts Bluff
+* Other Notable Stops
+	Alcove Spring (Kansas)
+	Three Island Crossing (Idaho)
+	Hollenberg Station (Kansas)
+* Features cut from original game:
+	Elaborate trading - kinda implemented it
+	Tense Encounters - kinda implemented it
+	Good Samaritan Actions - kinda implemented it
+* Lewis & Clark Stayed Home - Reference to the Oregon Trail game time forgot
+* textUpdateUI re-declares a grades object twice per call and re-queries 15 DOM nodes each refresh. It's action-triggered, not per-frame, so the impact is negligible — not worth the churn.
+* Make sure I fully integrated firewood and barrels in all events
+* Make sure I fully integrated karma in all events
+
+exportGhostData()
